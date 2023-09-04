@@ -82,10 +82,7 @@ namespace RestSharpAutomation.RestPostEndpoint
             request.AddBody(GetLaptopObject()); 
 
             IRestResponse response = restClient.Post(request);
-
-            //Seharunya 200 tapi ketika dicoba malah tidak mau, dan di
-            //coba angak 0 malah tidak error
-            Assert.AreEqual(0, (int)response.StatusCode);
+            Assert.AreEqual(200, (int)response.StatusCode);
             Console.WriteLine(response.Content);
         }
 

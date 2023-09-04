@@ -106,8 +106,7 @@ namespace WebServiceAutomation.PutEndPoint
             {
                 {"Accept", "application/json"}
             };
-            restResponse = HttpClientHelper.PerformPostRequest(postUrl, jsonData, jsonMediaType, headers);
-            // Ini juga sama diruba dari yang sebelumnya 200 menjadi 400
+            RestResponse restResponse = HttpClientHelper.PerformPostRequest(postUrl, jsonData, jsonMediaType, headers);
             Assert.AreEqual(200, restResponse.StatusCode);
 
              jsonData = "{" +
@@ -165,8 +164,6 @@ namespace WebServiceAutomation.PutEndPoint
                                     "\"Id\": " + id + "," +
                                     "\"LaptonName\": \"Alienware M17\"" +
                                "}";
-
-
             Dictionary<string, string> headers = new Dictionary<string, string>()
             {
                 {"Accept", "application/json"}
@@ -188,8 +185,6 @@ namespace WebServiceAutomation.PutEndPoint
                                    "\"Id\": " + id + "," +
                                    "\"LaptonName\": \"Alienware M17\"" +
                               "}";
-
-            
             restResponse = HttpClientHelper.PerformPutRequest(putUrl, jsonData, jsonMediaType, headers);
             Assert.AreEqual(200, restResponse.StatusCode);
 
@@ -200,8 +195,7 @@ namespace WebServiceAutomation.PutEndPoint
             Laptop xmlObj = ResponseDataHelper.DeserializeXmlResponse<Laptop>(restResponse.ResponseContent);
             Assert.IsTrue(xmlObj.Features.Feature.Contains("1 TB of SSD"), "Item is Not Found");
 
-            JsonRootObject jsonObject = ResponseDataHelper.DeserializeJsonResponse<JsonRootObject>
-                (restResponse.ResponseContent);
+            JsonRootObject jsonObject = ResponseDataHelper.DeserializeJsonResponse<JsonRootObject>(restResponse.ResponseContent);
 
             Assert.IsTrue(jsonObject.Features.Feature.Contains("1 TB of SSD"), "Item Not Found");
 
@@ -299,10 +293,8 @@ namespace WebServiceAutomation.PutEndPoint
             restResponse = HttpClientHelper.PerformGetRequest(secureGetUrl + id, headers);
             Assert.AreEqual(200, restResponse.StatusCode);
 
-            //Sebenarnya ini tampilannya adalah is true, tapi ketika dicoba itu tidak mau, malah yang terjadi adalah error 
-            //Tapi ketika dicoba diubah menjadi ISFalse, dia malah mau ngedebug
             Laptop xmlObj = ResponseDataHelper.DeserializeXmlResponse<Laptop>(restResponse.ResponseContent);
-            Assert.IsFalse(xmlObj.Features.Feature.Contains("1 TB of SSD"), "Item is Not Found");
+            Assert.IsTrue(xmlObj.Features.Feature.Contains("1 TB of SSD"), "Item is Not Found");
 
         }
     }
